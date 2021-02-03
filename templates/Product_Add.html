@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load mathfilters %}
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>Alpha Gadgets</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  <style>
+         .pr1{background-color:#ced4da;}
+        .prtext{color:#000000;font-weight:bolder;}
+    </style>
+    <script>
+$(document).ready(function(){
+$("#sell").val(0);
+$("#spec").val(0);
+$("#spec").hide();
+$("#sell").hide();
+$("#productname").bind('input', function () {
+   var stt = $(this).val();
+   $("#brand").val(stt);
+});
+
+
+
+});
+</script>
+</head>
+
+<body>
+ <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top " style="background-color:#161a1d;">
+    <div class="container-fluid d-flex align-items-center">
+
+
+      <h1 class="logo mr-auto" style="display:inline;"><a href="{% url 'home' %}">ALPHA</a></h1>
+
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="drop-down"><a href="">Categories</a>
+          <ul>
+            {% for i in cat %}
+              <li><a href="#">{{i.catname}}</a></li>
+            {% endfor %}
+          </ul>
+          </li>
+                {% ifequal  user.astatus 1 %}
+                <li><a  href="{% url 'adminadd' %}">Admin</a></li>
+                {% endifequal %}
+          <li class="drop-down"><a href=""><img src="{% static 'icon/profileicon.png' %}"></a>
+            <ul>
+
+                {% if user.is_authenticated %}
+                <li><a  href="#">Profile View</a></li>
+                 <li><a  href="{% url 'logout' %}">Logout</a></li>
+                  <li><a  href="{% url 'password_change' %}">Change Password</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'signup' %}">signup</a></li>
+                {% endif %}
+
+            </ul>
+          </li>
+          <li><a href="#contact"><img src="{% static 'icon/cart.png' %}"></a></li>
+          <li><a href="#serach" id="srcid"><img src="{% static 'icon/searchnew.png' %}"></a></li>
+
+        </ul>
+      </nav><!-- .nav-menu -->
+
+
+
+
+
+    </div>
+
+  </header><!-- End Header -->
+
+
+
+  <main id="main">
+
+       <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+           <ol>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li>Add category</li>
+        </ol>
+        <h2>Add category</h2>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+    <section  class="inner-page">
+     <div align="center">
+
+    <div class="col-sm-6 pr1" align="center" style="border-radius:10px;padding:5px;">
+        <center><h3 class="prtext"; style="">
+    ADD PRODUCT
+</h3>
+        <form class="form-group" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <input type="text" placeholder="uid" class="form-control"style="margin:8px;width:90%;"required="required"name="Userid" id="uid"value="{{uid}}">
+            <input type="text" placeholder="PRODUCT NAME" class="form-control"style="margin:8px;width:90%;" required="required"name="productname"id="productname">
+            <select class="form-control"style="margin:8px;width:90%;"name="catname">
+              {% for i in a %}
+                <option value="{{i.id}}">{{i.catname}}</option>
+                {% endfor %}
+            </select>
+            <input type="file" style="margin:8px;width:90%;"name="pimage1"class="form-control"required="required"id="fileinput">
+            <input type="file" class="form-control"style="margin:8px;width:90%;"name="pimage2">
+            <input type="file" class="form-control"style="margin:8px;width:90%;"name="pimage3">
+
+
+
+            <input type="number" placeholder="PRIZE" class="form-control"style="margin:8px;width:90%;"name="prize">
+            <input type="number" placeholder="SPEC_STATUS" class="form-control"style="margin:8px;width:90%;"name="spec_status"id="spec">
+            <input type="number" placeholder="SELL" class="form-control"style="margin:8px;width:90%;"required="required"name="sell"id="sell">
+            <input type="number" placeholder="DISCOUNT IN %" class="form-control"style="margin:8px;width:90%;"required="required"name="discount">
+            <input type="text" placeholder="BRAND" class="form-control"style="margin:8px;width:90%;"required="required"name="brand" id="brand">
+            <input type="text" placeholder="DISCRIPTION" class="form-control"style="margin:8px;width:90%;"required="required"name="pdisc">
+
+
+
+
+            <input type="submit" value="SAVE" id="btnLoad" class="btn btn-primary"style="margin:12px;width:40%;font-weight:bold;">
+        </form></center>
+</div></div>
+    </section>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 footer-contact">
+            <h3>Alpha</h3>
+            <p>
+              A108 Adam Street <br>
+              New York, NY 535022<br>
+              United States <br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>Our Social Networks</h4>
+            <p>Cras fermentum odio eu feugiat lide par naso tierra videa magna derita valies</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom clearfix">
+      <div class="copyright">
+        &copy; Copyright <strong><span>Alpha</span></strong>. All Rights Reserved
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
+  <div id="preloader"></div>
+
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/venobox/venobox.min.js' %}vendor/venobox/venobox.min.js"></script>
+  <script src="{% static 'vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
